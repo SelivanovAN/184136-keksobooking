@@ -19,8 +19,8 @@ function generateAuthors() {
   var uniqueTitles = TITLE.slice(0);// ??????
   var results = [];
   for (var i = 0; i < authorsCount; i++) {
-    var x = getRandomNum(300, 900);
-    var y = getRandomNum(100, 500);
+    var x = generateRandomNumber(300, 900);
+    var y = generateRandomNumber(100, 500);
     var rooms = generateRandomNumber(1, 5);
 
     results.push({
