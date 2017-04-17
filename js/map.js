@@ -48,7 +48,7 @@ function generateAuthors() {
         guests: generateRandomNumber(rooms, rooms * 2),
         checkin: CHECKIN_OUT_TIME[Math.floor(Math.random() * CHECKIN_OUT_TIME.length)],
         checkout: CHECKIN_OUT_TIME[Math.floor(Math.random() * CHECKIN_OUT_TIME.length)],
-        features: generateRandomFeatures(features),
+        features: generateRandomFeatures(FEATURES),
         description: '',
         photos: []
       },
