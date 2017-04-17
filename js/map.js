@@ -13,6 +13,19 @@ var TYPE_HOUSE = {
 function generateRandomNumber(min, max) {
   return Math.round(Math.random() * (max - min) + min);
 }
+function generateRandomFeatures(features) {
+  var result = [];
+  var count = generateRandomNumber(1, features.length);
+  var index = 0;
+
+  for (var i = 0; i < count; i++) {
+    index = ((features.length - 1) * Math.random()).toFixed(0);
+    if (result.indexOf(features[index]) === -1) {
+      result.push(features[index]);
+    }
+  }
+  return result;
+}
 
 function generateAuthors() {
   var authorsCount = 8;
@@ -35,7 +48,7 @@ function generateAuthors() {
         guests: generateRandomNumber(rooms, rooms * 2),
         checkin: CHECKIN_OUT_TIME[Math.floor(Math.random() * CHECKIN_OUT_TIME.length)],
         checkout: CHECKIN_OUT_TIME[Math.floor(Math.random() * CHECKIN_OUT_TIME.length)],
-        features: FEATURES[Math.floor(Math.random() * FEATURES.length)],
+        features: generateRandomFeatures(features),
         description: '',
         photos: []
       },
