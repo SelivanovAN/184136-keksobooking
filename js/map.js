@@ -28,7 +28,7 @@ function generateAuthors() {
         avatar: 'img/avatars/user0' + (i + 1) + '.png', //?????????
       },
       offer: {
-        title: popRandomElement(uniqueTitles),
+        title: TITLE[Math.floor(Math.random()*TITLE.length)],
         address: x + ',' + y,
         price: generateRandomNumber(1000, 1000000),
         type: getRandomElement(TYPES, false),
