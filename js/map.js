@@ -16,7 +16,6 @@ function generateRandomNumber(min, max) {
 
 function generateAuthors() {
   var authorsCount = 8;
-  var uniqueTitles = TITLE.slice(0);// ??????
   var results = [];
   for (var i = 0; i < authorsCount; i++) {
     var x = generateRandomNumber(300, 900);
@@ -25,18 +24,18 @@ function generateAuthors() {
 
     results.push({
       author: {
-        avatar: 'img/avatars/user0' + (i + 1) + '.png', //?????????
+        avatar: 'img/avatars/user0' + (i + 1) + '.png',
       },
       offer: {
-        title: TITLE[Math.floor(Math.random()*TITLE.length)],
+        title: TITLE[Math.floor(Math.random() * TITLE.length)],
         address: x + ',' + y,
         price: generateRandomNumber(1000, 1000000),
-        type: TYPES[Math.floor(Math.random()*TYPES.length)],
+        type: TYPES[Math.floor(Math.random() * TYPES.length)],
         rooms: rooms,
         guests: generateRandomNumber(rooms, rooms * 2),
-        checkin: CHECKIN_OUT_TIME[Math.floor(Math.random()*CHECKIN_OUT_TIME.length)],
-        checkout: CHECKIN_OUT_TIME[Math.floor(Math.random()*CHECKIN_OUT_TIME.length)],
-        features: FEATURES[Math.floor(Math.random()*FEATURES.length)],
+        checkin: CHECKIN_OUT_TIME[Math.floor(Math.random() * CHECKIN_OUT_TIME.length)],
+        checkout: CHECKIN_OUT_TIME[Math.floor(Math.random() * CHECKIN_OUT_TIME.length)],
+        features: FEATURES[Math.floor(Math.random() * FEATURES.length)],
         description: '',
         photos: []
       },
