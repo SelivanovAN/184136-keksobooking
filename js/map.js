@@ -31,12 +31,12 @@ function generateAuthors() {
         title: TITLE[Math.floor(Math.random()*TITLE.length)],
         address: x + ',' + y,
         price: generateRandomNumber(1000, 1000000),
-        type: getRandomElement(TYPES, false),
+        type: TYPES[Math.floor(Math.random()*TYPES.length)],
         rooms: rooms,
         guests: generateRandomNumber(rooms, rooms * 2),
-        checkin: getRandomElement(CHECKIN_OUT_TIME),
-        checkout: getRandomElement(CHECKIN_OUT_TIME),
-        features: generateRandomArray(FEATURES),
+        checkin: CHECKIN_OUT_TIME[Math.floor(Math.random()*CHECKIN_OUT_TIME.length)],
+        checkout: CHECKIN_OUT_TIME[Math.floor(Math.random()*CHECKIN_OUT_TIME.length)],
+        features: FEATURES[Math.floor(Math.random()*FEATURES.length)],
         description: '',
         photos: []
       },
@@ -46,7 +46,7 @@ function generateAuthors() {
       }
     });
   }
-  return result;
+  return results;
 }
 function renderAuthor(author) {
   var pinWidth = 56;
