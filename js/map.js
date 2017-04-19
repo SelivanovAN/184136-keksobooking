@@ -5,11 +5,13 @@ var TITLE = [
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var CHECKIN_OUT_TIME = ['12:00', '13:00', '14:00'];
 var TYPES = ['flat', 'house', 'bungalo'];
-var TYPE_HOUSE = {
-  flat: 'Квартира',
-  house: 'Дом',
-  bungalo: 'Бунгало'
-};
+var TYPE_HOUSE = {flat: 'Квартира', house: 'Дом', bungalo: 'Бунгало'};
+var PIN_CLASS = 'pin';
+var ACTIVE_PIN_CLASS = 'pin--active';
+var ENTER_KEY_CODE = 13;
+var ESC_KEY_CODE = 27;
+var offerDialog = document.body.querySelector('#offer-dialog');
+
 function generateRandomNumber(min, max) {
   return Math.round(Math.random() * (max - min) + min);
 }
@@ -68,6 +70,7 @@ function renderAuthor(author) {
   div.classList.add('pin');
   div.style.left = (author.location.x + Math.round(pinWidth / 2)) + 'px';
   div.style.top = (author.location.y + pinHeight) + 'px';
+  div.tabIndex = 0;
   var img = document.createElement('img');
   img.src = author.author.avatar;
   img.classList.add('rounded');
@@ -84,8 +87,15 @@ function renderAuthors(authors) {
   }
   document.querySelector('.tokyo__pin-map').appendChild(fragment);
 }
-
+var keydownEscHandler = function (evt) {
+  if (evt.keyCode === ESC_KEY_CODE) {
+    closeOfferDialog();
+  }
+};
 function renderAuthorInDialogPanel(author) {
+  if (!author) {
+    return;
+  }
   var newSectionPanel = document.body.querySelector('#lodge-template').content.cloneNode(true);
   newSectionPanel.querySelector('.lodge__title').textContent = author.offer.title;
   newSectionPanel.querySelector('.lodge__address').textContent = author.offer.address;
@@ -108,8 +118,69 @@ function renderAuthorInDialogPanel(author) {
 
   var panelToReplace = dialog.querySelector('.dialog__panel');
   dialog.replaceChild(newSectionPanel, panelToReplace);
+
+  offerDialog.style.display = 'block';
+  document.addEventListener('keydown', keydownEscHandler);
 }
 
 var authors = generateAuthors();
 renderAuthors(authors);
 renderAuthorInDialogPanel(authors[0]);
+
+var activePin;
+
+function findAuthor(avatar) {
+  for (var i = 0; i < authors.length; i++) {
+    if (avatar.endsWith(authors[i].author.avatar)) {
+      return authors[i];
+    }
+  }
+  return null;
+}
+function closeOfferDialog() {
+  document.removeEventListener('keydown', keydownEscHandler);
+
+  offerDialog.style.display = 'none';
+  if (activePin) {
+    activePin.classList.remove(ACTIVE_PIN_CLASS);
+    activePin = null;
+  }
+}
+function activatePin(pin) {
+  pin.classList.add(ACTIVE_PIN_CLASS);
+  if (activePin) {
+    activePin.classList.remove(ACTIVE_PIN_CLASS);
+  }
+  activePin = pin;
+}
+var clickPinHandler = function (evt) {
+  activatePin(evt.currentTarget);
+  var avatar = activePin.childNodes[0].src;
+  var author = findAuthor(avatar);
+  renderAuthorInDialogPanel(author);
+};
+var enterKeydownCloseButtonHandler = function (evt) {
+  if (evt.keyCode === ENTER_KEY_CODE) {
+    closeOfferDialog();
+  }
+};
+var enterKeydownPinHandler = function (evt) {
+  if (evt.keyCode === ENTER_KEY_CODE) {
+    activatePin(evt.currentTarget);
+
+    var avatar = activePin.childNodes[0].src;
+    var author = findAuthor(avatar);
+    renderAuthorInDialogPanel(author);
+  }
+};
+var clickCloseButtonHandler = function () {
+  closeOfferDialog();
+};
+var pins = document.body.querySelectorAll('.pin');
+for (var i = 0; i < pins.length; i++) {
+  pins[i].addEventListener('click', clickPinHandler);
+  pins[i].addEventListener('keydown', enterKeydownPinHandler);
+}
+var closeButton = document.body.querySelector('.dialog__close');
+closeButton.addEventListener('click', clickCloseButtonHandler);
+closeButton.addEventListener('keydown', enterKeydownCloseButtonHandler);
