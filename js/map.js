@@ -93,9 +93,7 @@ var keydownEscHandler = function (evt) {
   }
 };
 function renderAuthorInDialogPanel(author) {
-  if (!author) {
-    return;
-  }
+
   var newSectionPanel = document.body.querySelector('#lodge-template').content.cloneNode(true);
   newSectionPanel.querySelector('.lodge__title').textContent = author.offer.title;
   newSectionPanel.querySelector('.lodge__address').textContent = author.offer.address;
