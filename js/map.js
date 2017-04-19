@@ -67,7 +67,7 @@ function renderAuthor(author) {
   var pinHeight = 75;
 
   var div = document.createElement('div');
-  div.classList.add('pin');
+  div.classList.add(PIN_CLASS);
   div.style.left = (author.location.x + Math.round(pinWidth / 2)) + 'px';
   div.style.top = (author.location.y + pinHeight) + 'px';
   div.tabIndex = 0;
