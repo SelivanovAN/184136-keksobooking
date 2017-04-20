@@ -132,13 +132,13 @@ var activatePinAndOpenDialog = function (pin) {
   var avatar = activePin.childNodes[0].src;
   var author = findAuthor(avatar);
   renderAuthorInDialogPanel(author);
-}
+};
 var clickPinHandler = function (evt) {
-  activatePinAndOpenDialog(evt.currentTarget)
+  activatePinAndOpenDialog(evt.currentTarget);
 };
 var enterKeydownPinHandler = function (evt) {
   if (evt.keyCode === ENTER_KEY_CODE) {
-    activatePinAndOpenDialog(evt.currentTarget)
+    activatePinAndOpenDialog(evt.currentTarget);
   }
 };
 
@@ -166,26 +166,13 @@ function activatePin(pin) {
   }
   activePin = pin;
 }
-var clickPinHandler = function (evt) {
-  activatePin(evt.currentTarget);
-  var avatar = activePin.childNodes[0].src;
-  var author = findAuthor(avatar);
-  renderAuthorInDialogPanel(author);
-};
+
 var enterKeydownCloseButtonHandler = function (evt) {
   if (evt.keyCode === ENTER_KEY_CODE) {
     closeOfferDialog();
   }
 };
-var enterKeydownPinHandler = function (evt) {
-  if (evt.keyCode === ENTER_KEY_CODE) {
-    activatePin(evt.currentTarget);
 
-    var avatar = activePin.childNodes[0].src;
-    var author = findAuthor(avatar);
-    renderAuthorInDialogPanel(author);
-  }
-};
 var clickCloseButtonHandler = function () {
   closeOfferDialog();
 };
