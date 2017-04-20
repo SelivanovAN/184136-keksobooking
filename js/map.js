@@ -146,7 +146,8 @@ function closeOfferDialog() {
 
   offerDialog.style.display = 'none';
   if (deactivateCurrentPin) {
-    window.testMe = deactivateCurrentPin;
+    deactivateCurrentPin.classList.remove(ACTIVE_PIN_CLASS);
+    deactivateCurrentPin = null;
   }
 }
 function deactivateCurrentPin(pin) {
