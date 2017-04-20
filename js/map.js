@@ -125,11 +125,16 @@ var authors = generateAuthors();
 renderAuthors(authors);
 renderAuthorInDialogPanel(authors[0]);
 
-var activePin;
+var deactivateCurrentPin = function() {
+  var currentPin = document.querySelectorAll(".pin--active")[0];
+  if(currentPin) {
+    currentPin.classList.remove("pin--active");
+  }
+};
 
 var activatePinAndOpenDialog = function (pin) {
   activatePin(pin);
-  var avatar = activePin.childNodes[0].src;
+  var avatar = pin.childNodes[0].src;
   var author = findAuthor(avatar);
   renderAuthorInDialogPanel(author);
 };
@@ -154,17 +159,11 @@ function closeOfferDialog() {
   document.removeEventListener('keydown', keydownEscHandler);
 
   offerDialog.style.display = 'none';
-  if (activePin) {
-    activePin.classList.remove(ACTIVE_PIN_CLASS);
-    activePin = null;
-  }
+  deactivateCurrentPin();
 }
 function activatePin(pin) {
   pin.classList.add(ACTIVE_PIN_CLASS);
-  if (activePin) {
-    activePin.classList.remove(ACTIVE_PIN_CLASS);
-  }
-  activePin = pin;
+  deactivateCurrentPin();
 }
 
 var enterKeydownCloseButtonHandler = function (evt) {
