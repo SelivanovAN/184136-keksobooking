@@ -125,7 +125,13 @@ var authors = generateAuthors();
 renderAuthors(authors);
 renderAuthorInDialogPanel(authors[0]);
 
-var activePin;
+//var activePin;
+var deactivateCurrentPin = function() {
+	var currentPin = document.querySelectorAll(".pin--active")[0]
+	if(currentPin) {
+		currentPin.classList.remove("pin--active")
+	}
+}
 
 function findAuthor(avatar) {
   for (var i = 0; i < authors.length; i++) {
@@ -139,21 +145,21 @@ function closeOfferDialog() {
   document.removeEventListener('keydown', keydownEscHandler);
 
   offerDialog.style.display = 'none';
-  if (activePin) {
-    activePin.classList.remove(ACTIVE_PIN_CLASS);
-    activePin = null;
+  if (deactivateCurrentPin) {
+    deactivateCurrentPin.classList.remove(ACTIVE_PIN_CLASS);
+    deactivateCurrentPin = null;
   }
 }
-function activatePin(pin) {
+function deactivateCurrentPin(pin) {
   pin.classList.add(ACTIVE_PIN_CLASS);
-  if (activePin) {
-    activePin.classList.remove(ACTIVE_PIN_CLASS);
+  if (deactivateCurrentPin) {
+    deactivateCurrentPin.classList.remove(ACTIVE_PIN_CLASS);
   }
-  activePin = pin;
+  deactivateCurrentPin = pin;
 }
 var clickPinHandler = function (evt) {
-  activatePin(evt.currentTarget);
-  var avatar = activePin.childNodes[0].src;
+  deactivateCurrentPin(evt.currentTarget);
+  var avatar = deactivateCurrentPin.childNodes[0].src;
   var author = findAuthor(avatar);
   renderAuthorInDialogPanel(author);
 };
@@ -164,9 +170,9 @@ var enterKeydownCloseButtonHandler = function (evt) {
 };
 var enterKeydownPinHandler = function (evt) {
   if (evt.keyCode === ENTER_KEY_CODE) {
-    activatePin(evt.currentTarget);
+    deactivateCurrentPin(evt.currentTarget);
 
-    var avatar = activePin.childNodes[0].src;
+    var avatar = deactivateCurrentPin.childNodes[0].src;
     var author = findAuthor(avatar);
     renderAuthorInDialogPanel(author);
   }
