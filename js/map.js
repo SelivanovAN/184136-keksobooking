@@ -125,13 +125,13 @@ var authors = generateAuthors();
 renderAuthors(authors);
 renderAuthorInDialogPanel(authors[0]);
 
-//var activePin;
+
 var deactivateCurrentPin = function() {
 	var currentPin = document.querySelectorAll(".pin--active")[0]
-	if(currentPin) {
-		currentPin.classList.remove("pin--active")
-	}
-}
+  if (currentPin) {
+    currentPin.classList.remove("pin--active");
+  }
+};
 
 function findAuthor(avatar) {
   for (var i = 0; i < authors.length; i++) {
