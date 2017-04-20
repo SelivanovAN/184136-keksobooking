@@ -159,7 +159,7 @@ function deactivateCurrentPin(pin) {
 }
 var clickPinHandler = function (evt) {
   deactivateCurrentPin(evt.currentTarget);
-  var avatar = deactivateCurrentPin.childNodes[0].src;
+  var avatar = evt.currentTarget.childNodes[0].src;
   var author = findAuthor(avatar);
   renderAuthorInDialogPanel(author);
 };
