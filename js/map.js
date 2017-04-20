@@ -126,9 +126,9 @@ renderAuthors(authors);
 renderAuthorInDialogPanel(authors[0]);
 
 var deactivateCurrentPin = function () {
-  var currentPin = document.querySelectorAll(".pin--active")[0];
+  var currentPin = document.querySelectorAll('.pin--active')[0];
   if (currentPin) {
-    currentPin.classList.remove("pin--active");
+    currentPin.classList.remove('pin--active');
   }
 };
 
@@ -162,8 +162,8 @@ function closeOfferDialog() {
   deactivateCurrentPin();
 }
 function activatePin(pin) {
-  pin.classList.add(ACTIVE_PIN_CLASS);
   deactivateCurrentPin();
+  pin.classList.add(ACTIVE_PIN_CLASS);
 }
 
 var enterKeydownCloseButtonHandler = function (evt) {
