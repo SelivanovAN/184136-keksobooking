@@ -125,9 +125,9 @@ var authors = generateAuthors();
 renderAuthors(authors);
 renderAuthorInDialogPanel(authors[0]);
 
-var deactivateCurrentPin = function() {
+var deactivateCurrentPin = function () {
   var currentPin = document.querySelectorAll(".pin--active")[0];
-  if(currentPin) {
+  if (currentPin) {
     currentPin.classList.remove("pin--active");
   }
 };
