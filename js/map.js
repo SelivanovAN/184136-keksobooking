@@ -127,6 +127,21 @@ renderAuthorInDialogPanel(authors[0]);
 
 var activePin;
 
+var activatePinAndOpenDialog = function (pin) {
+  activatePin(pin);
+  var avatar = activePin.childNodes[0].src;
+  var author = findAuthor(avatar);
+  renderAuthorInDialogPanel(author);
+}
+var clickPinHandler = function (evt) {
+  activatePinAndOpenDialog(evt.currentTarget)
+};
+var enterKeydownPinHandler = function (evt) {
+  if (evt.keyCode === ENTER_KEY_CODE) {
+    activatePinAndOpenDialog(evt.currentTarget)
+  }
+};
+
 function findAuthor(avatar) {
   for (var i = 0; i < authors.length; i++) {
     if (avatar.endsWith(authors[i].author.avatar)) {
