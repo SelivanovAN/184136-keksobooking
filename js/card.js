@@ -1,5 +1,5 @@
 'use strict';
-window.card = (function()) {
+window.card = (function () {
   var TYPE_HOUSE = {flat: 'Квартира', house: 'Дом', bungalo: 'Бунгало'};
   var offerDialog = document.body.querySelector('#offer-dialog');
   function renderAuthorInDialogPanel(author) {
@@ -49,4 +49,4 @@ window.card = (function()) {
   var authors = generateAuthors();
   renderAuthors(authors);
   renderAuthorInDialogPanel(authors[0]);
-}
+}());
