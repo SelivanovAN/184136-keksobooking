@@ -60,4 +60,5 @@ window.pin = (function () {
     pins[i].addEventListener('click', clickPinHandler);
     pins[i].addEventListener('keydown', enterKeydownPinHandler);
   }
+  renderAuthors(authors);
 }());

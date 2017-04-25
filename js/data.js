@@ -71,4 +71,5 @@ window.data = (function () {
     authors: generateAuthors(),
     findAuthor: findAuthor
   };
+  var authors = generateAuthors();
 }());
