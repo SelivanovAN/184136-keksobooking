@@ -1,64 +1,68 @@
 'use strict';
-window.contants = {
-  ENTER_KEY_CODE: 13,
-  ESC_KEY_CODE: 27
+var PIN_CLASS = 'pin';
+var ACTIVE_PIN_CLASS = 'pin--active';
+var ENTER_KEY_CODE = 13;
+var ESC_KEY_CODE = 27;
+var offerDialog = document.body.querySelector('#offer-dialog');
+var keydownEscHandler = function (evt) {
+  if (evt.keyCode === ESC_KEY_CODE) {
+    closeOfferDialog();
+  }
 };
-window.pin = (function () {
-  var PIN_CLASS = 'pin';
-  var ACTIVE_PIN_CLASS = 'pin--active';
-  var PIN_WIDTH = 56;
-  var PIN_HEIGHT = 75;
-  var clickPinHandler = function (evt) {
+var deactivateCurrentPin = function () {
+  var currentPin = document.querySelectorAll('.pin--active')[0];
+  if (currentPin) {
+    currentPin.classList.remove('pin--active');
+  }
+};
+var activatePinAndOpenDialog = function (pin) {
+  activatePin(pin);
+  var avatar = pin.childNodes[0].src;
+  var author = findAuthor(avatar);
+  renderAuthorInDialogPanel(author);
+};
+var clickPinHandler = function (evt) {
+  activatePinAndOpenDialog(evt.currentTarget);
+};
+var enterKeydownPinHandler = function (evt) {
+  if (evt.keyCode === ENTER_KEY_CODE) {
     activatePinAndOpenDialog(evt.currentTarget);
-  };
-  var enterKeydownPinHandler = function (evt) {
-    if (evt.keyCode === ENTER_KEY_CODE) {
-      activatePinAndOpenDialog(evt.currentTarget);
+  }
+};
+
+function findAuthor(avatar) {
+  for (var i = 0; i < authors.length; i++) {
+    if (avatar.endsWith(authors[i].author.avatar)) {
+      return authors[i];
     }
-  };
-  function renderAuthor(author) {
-    var div = document.createElement('div');
-    div.classList.add(PIN_CLASS);
-    div.style.left = (author.location.x + Math.round(PIN_WIDTH / 2)) + 'px';
-    div.style.top = (author.location.y + PIN_HEIGHT) + 'px';
-    div.tabIndex = 0;
-    var img = document.createElement('img');
-    img.src = author.author.avatar;
-    img.classList.add('rounded');
-    img.width = 40;
-    img.height = 40;
-    div.appendChild(img);
-    return div;
   }
-  document.querySelector('.tokyo__pin-map').appendChild(fragment);
-  var deactivateCurrentPin = function () {
-    var currentPin = document.querySelectorAll('.pin--active')[0];
-    if (currentPin) {
-      currentPin.classList.remove('pin--active');
-    }
-  };
-  var activatePinAndOpenDialog = function (pin) {
-    activatePin(pin);
-    var avatar = pin.childNodes[0].src;
-    var author = findAuthor(avatar);
-    renderAuthorInDialogPanel(author);
-  };
-  function findAuthor(avatar) {
-    for (var i = 0; i < authors.length; i++) {
-      if (avatar.endsWith(authors[i].author.avatar)) {
-        return authors[i];
-      }
-    }
-    return null;
+  return null;
+}
+function closeOfferDialog() {
+  document.removeEventListener('keydown', keydownEscHandler);
+
+  offerDialog.style.display = 'none';
+  deactivateCurrentPin();
+}
+function activatePin(pin) {
+  deactivateCurrentPin();
+  pin.classList.add(ACTIVE_PIN_CLASS);
+}
+
+var enterKeydownCloseButtonHandler = function (evt) {
+  if (evt.keyCode === ENTER_KEY_CODE) {
+    closeOfferDialog();
   }
-  function activatePin(pin) {
-    deactivateCurrentPin();
-    pin.classList.add(ACTIVE_PIN_CLASS);
-  }
-  var pins = document.body.querySelectorAll('.pin');
-  for (var i = 0; i < pins.length; i++) {
-    pins[i].addEventListener('click', clickPinHandler);
-    pins[i].addEventListener('keydown', enterKeydownPinHandler);
-  }
-  renderAuthors(authors);
-}());
+};
+
+var clickCloseButtonHandler = function () {
+  closeOfferDialog();
+};
+var pins = document.body.querySelectorAll('.pin');
+for (var i = 0; i < pins.length; i++) {
+  pins[i].addEventListener('click', clickPinHandler);
+  pins[i].addEventListener('keydown', enterKeydownPinHandler);
+}
+var closeButton = document.body.querySelector('.dialog__close');
+closeButton.addEventListener('click', clickCloseButtonHandler);
+closeButton.addEventListener('keydown', enterKeydownCloseButtonHandler);
