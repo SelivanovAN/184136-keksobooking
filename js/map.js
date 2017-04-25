@@ -1,90 +1,4 @@
 'use strict';
-var TITLE = [
-  'Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'
-];
-var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-var CHECKIN_OUT_TIME = ['12:00', '13:00', '14:00'];
-var TYPES = ['flat', 'house', 'bungalo'];
-var TYPE_HOUSE = {flat: 'Квартира', house: 'Дом', bungalo: 'Бунгало'};
-var PIN_CLASS = 'pin';
-var ACTIVE_PIN_CLASS = 'pin--active';
-var ENTER_KEY_CODE = 13;
-var ESC_KEY_CODE = 27;
-var MIN_PRICES = {
-  'apartment': 1000,
-  'hut': 0,
-  'palace': 10000
-};
-var INVALID_ELEMENT_STYLE = 'border: 1px solid red';
-var offerDialog = document.body.querySelector('#offer-dialog');
-
-function generateRandomNumber(min, max) {
-  return Math.round(Math.random() * (max - min) + min);
-}
-function generateRandomFeatures(features) {
-  var result = [];
-  var count = generateRandomNumber(1, features.length);
-  var index = 0;
-
-  for (var i = 0; i < count; i++) {
-    index = ((features.length - 1) * Math.random()).toFixed(0);
-    if (result.indexOf(features[index]) === -1) {
-      result.push(features[index]);
-    }
-  }
-  return result;
-}
-
-function generateAuthors() {
-  var authorsCount = 8;
-  var results = [];
-  for (var i = 0; i < authorsCount; i++) {
-    var x = generateRandomNumber(300, 900);
-    var y = generateRandomNumber(100, 500);
-    var rooms = generateRandomNumber(1, 5);
-
-    results.push({
-      author: {
-        avatar: 'img/avatars/user0' + (i + 1) + '.png',
-      },
-      offer: {
-        title: TITLE[Math.floor(Math.random() * TITLE.length)],
-        address: x + ',' + y,
-        price: generateRandomNumber(1000, 1000000),
-        type: TYPES[Math.floor(Math.random() * TYPES.length)],
-        rooms: rooms,
-        guests: generateRandomNumber(rooms, rooms * 2),
-        checkin: CHECKIN_OUT_TIME[Math.floor(Math.random() * CHECKIN_OUT_TIME.length)],
-        checkout: CHECKIN_OUT_TIME[Math.floor(Math.random() * CHECKIN_OUT_TIME.length)],
-        features: generateRandomFeatures(FEATURES),
-        description: '',
-        photos: []
-      },
-      location: {
-        x: x,
-        y: y
-      }
-    });
-  }
-  return results;
-}
-function renderAuthor(author) {
-  var pinWidth = 56;
-  var pinHeight = 75;
-
-  var div = document.createElement('div');
-  div.classList.add(PIN_CLASS);
-  div.style.left = (author.location.x + Math.round(pinWidth / 2)) + 'px';
-  div.style.top = (author.location.y + pinHeight) + 'px';
-  div.tabIndex = 0;
-  var img = document.createElement('img');
-  img.src = author.author.avatar;
-  img.classList.add('rounded');
-  img.width = 40;
-  img.height = 40;
-  div.appendChild(img);
-  return div;
-}
 
 function renderAuthors(authors) {
   var fragment = document.createDocumentFragment();
@@ -98,34 +12,7 @@ var keydownEscHandler = function (evt) {
     closeOfferDialog();
   }
 };
-function renderAuthorInDialogPanel(author) {
 
-  var newSectionPanel = document.body.querySelector('#lodge-template').content.cloneNode(true);
-  newSectionPanel.querySelector('.lodge__title').textContent = author.offer.title;
-  newSectionPanel.querySelector('.lodge__address').textContent = author.offer.address;
-  newSectionPanel.querySelector('.lodge__price').innerHTML = author.offer.price + '&#x20bd;/ночь';
-  newSectionPanel.querySelector('.lodge__type').textContent = TYPE_HOUSE[author.offer.type];
-  newSectionPanel.querySelector('.lodge__rooms-and-guests').textContent = 'Для ' + author.offer.guests + ' гостей в ' + author.offer.rooms + ' комнатах';
-  newSectionPanel.querySelector('.lodge__checkin-time').textContent = 'Заезд после ' + author.offer.checkin + ', выезд до ' + author.offer.checkout;
-  newSectionPanel.querySelector('.lodge__description').textContent = author.offer.description;
-
-  var featuresBlock = newSectionPanel.querySelector('.lodge__features');
-  for (var i = 0; i < author.offer.features.length; i++) {
-    var span = document.createElement('span');
-    span.classList.add('feature__image');
-    span.classList.add('feature__image--' + author.offer.features[i]);
-    featuresBlock.appendChild(span);
-  }
-
-  var dialog = document.body.querySelector('#offer-dialog');
-  dialog.querySelector('.dialog__title > img').src = author.author.avatar;
-
-  var panelToReplace = dialog.querySelector('.dialog__panel');
-  dialog.replaceChild(newSectionPanel, panelToReplace);
-
-  offerDialog.style.display = 'block';
-  document.addEventListener('keydown', keydownEscHandler);
-}
 
 var authors = generateAuthors();
 renderAuthors(authors);
@@ -189,43 +76,3 @@ for (var i = 0; i < pins.length; i++) {
 var closeButton = document.body.querySelector('.dialog__close');
 closeButton.addEventListener('click', clickCloseButtonHandler);
 closeButton.addEventListener('keydown', enterKeydownCloseButtonHandler);
-
-var form = document.body.querySelector('.notice__form');
-var timeSelect = form.querySelector('#time');
-var timeoutSelect = form.querySelector('#timeout');
-timeSelect.addEventListener('change', function () {
-  timeoutSelect.selectedIndex = timeSelect.selectedIndex;
-});
-
-var typeSelect = form.querySelector('#type');
-var priceInput = form.querySelector('#price');
-var setMinPrice = function () {
-  var minPrice = MIN_PRICES[typeSelect.options[typeSelect.selectedIndex].value];
-  if (typeof minPrice === 'number') {
-    priceInput.placeholder = minPrice;
-    priceInput.min = minPrice;
-  }
-};
-typeSelect.addEventListener('change', setMinPrice);
-var roomNumberSelect = form.querySelector('#room_number');
-var capacitySelect = form.querySelector('#capacity');
-var noGuestsOption = capacitySelect.querySelector('option[value="0"]');
-var threeGuestsOption = capacitySelect.querySelector('option[value="3"]');
-var limitGuests = function () {
-  if (roomNumberSelect.options[roomNumberSelect.selectedIndex].value > 1) {
-    capacitySelect.selectedIndex = threeGuestsOption.index;
-    return;
-  }
-  capacitySelect.selectedIndex = noGuestsOption.index;
-};
-limitGuests();
-roomNumberSelect.addEventListener('change', limitGuests);
-
-var resetBorder = function (evt) {
-  evt.target.style = 'border-width: 0px';
-  evt.target.removeEventListener('change', resetBorder);
-};
-form.addEventListener('invalid', function (evt) {
-  evt.target.style = INVALID_ELEMENT_STYLE;
-  evt.target.addEventListener('change', resetBorder);
-}, true);
