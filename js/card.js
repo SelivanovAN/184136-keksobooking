@@ -46,6 +46,7 @@ window.card = (function () {
   };
   closeButton.addEventListener('click', clickCloseButtonHandler);
   closeButton.addEventListener('keydown', enterKeydownCloseButtonHandler);
-
-
+  var authors = generateAuthors();
+  renderAuthors(authors);
+  renderAuthorInDialogPanel(authors[0]);
 }());
