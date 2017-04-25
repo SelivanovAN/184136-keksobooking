@@ -1,7 +1,7 @@
 'use strict';
 window.contants = {
-  ENTER_KEY_CODE: 13;
-  ESC_KEY_CODE: 27;
+  ENTER_KEY_CODE: 13,
+  ESC_KEY_CODE: 27
 };
 window.pin = (function () {
   var PIN_CLASS = 'pin';
