@@ -20,6 +20,12 @@ window.data = (function () {
     }
     return result;
   }
+  function renderAuthors(authors) {
+    var fragment = document.createDocumentFragment();
+    for (var i = 0; i < authors.length; i++) {
+      fragment.appendChild(renderAuthor(authors[i]));
+    }
+  }
   function generateAuthors() {
     var authorsCount = 8;
     var results = [];

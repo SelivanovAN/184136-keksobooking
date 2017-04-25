@@ -25,4 +25,28 @@ window.card = (function()) {
     offerDialog.style.display = 'block';
     document.addEventListener('keydown', keydownEscHandler);
   };
+  function closeOfferDialog() {
+    document.removeEventListener('keydown', keydownEscHandler);
+    offerDialog.style.display = 'none';
+    deactivateCurrentPin();
+  }
+  var enterKeydownCloseButtonHandler = function (evt) {
+    if (evt.keyCode === ENTER_KEY_CODE) {
+      closeOfferDialog();
+    }
+  };
+  var clickCloseButtonHandler = function () {
+    closeOfferDialog();
+  };
+  var closeButton = document.body.querySelector('.dialog__close');
+  var keydownEscHandler = function (evt) {
+    if (evt.keyCode === ESC_KEY_CODE) {
+      closeOfferDialog();
+    }
+  };
+  closeButton.addEventListener('click', clickCloseButtonHandler);
+  closeButton.addEventListener('keydown', enterKeydownCloseButtonHandler);
+  var authors = generateAuthors();
+  renderAuthors(authors);
+  renderAuthorInDialogPanel(authors[0]);
 }
