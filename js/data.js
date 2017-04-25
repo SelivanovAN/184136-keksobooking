@@ -71,4 +71,7 @@ window.data = (function () {
     authors: generateAuthors(),
     findAuthor: findAuthor
   };
+  var authors = generateAuthors();
+  renderAuthors(authors);
+  renderAuthorInDialogPanel(authors[0]);
 }());
