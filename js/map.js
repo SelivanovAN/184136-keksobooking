@@ -5,7 +5,7 @@ function renderAuthors(authors) {
   for (var i = 0; i < authors.length; i++) {
     fragment.appendChild(renderAuthor(authors[i]));
   }
-  document.querySelector('.tokyo__pin-map').appendChild(fragment);
+
 }
 var keydownEscHandler = function (evt) {
   if (evt.keyCode === ESC_KEY_CODE) {
